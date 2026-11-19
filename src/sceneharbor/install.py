@@ -6,6 +6,7 @@ import shutil
 import time
 import urllib.request
 from dataclasses import dataclass
+from http.client import IncompleteRead
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from zipfile import ZipFile
@@ -18,7 +19,8 @@ from .store import fingerprint
 ASSET = "realesrgan-ncnn-vulkan-20220424-ubuntu.zip"
 URL = f"https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/{ASSET}"
 ARCHIVE_SHA256 = "e5aa6eb131234b87c0c51f82b89390f5e3e642b7b70f2b9bbe95b6a285a40c96"
-ARCHIVE_LIMIT = 64 * 1024**2
+ARCHIVE_SIZE = 46_931_474
+DOWNLOAD_ATTEMPTS = 3
 BINARY = "realesrgan-ncnn-vulkan"
 VULKAN_CHECK_SECONDS = 45
 
@@ -57,7 +59,7 @@ def install(local_archive: Path | None = None) -> Path:
         archive = local_archive or folder / ASSET
         if local_archive is None:
             _download(archive)
-        if archive.stat().st_size > ARCHIVE_LIMIT or fingerprint(archive) != ARCHIVE_SHA256:
+        if not _verified_archive(archive):
             raise RuntimeError("Upstream engine archive failed its SHA-256 verification.")
         staging = folder / "engine"
         _extract(archive, staging)
@@ -110,15 +112,49 @@ def _require_files(binary: Path) -> tuple[Path, Path, Path]:
 
 
 def _download(archive: Path) -> None:
-    """Streams the pinned release into a bounded temporary file."""
-    request = urllib.request.Request(URL, headers={"User-Agent": "sceneharbor/1.0"})
-    with urllib.request.urlopen(request, timeout=60) as response, archive.open("xb") as handle:
-        total = 0
-        while chunk := response.read(1024 * 1024):
-            total += len(chunk)
-            if total > ARCHIVE_LIMIT:
-                raise RuntimeError("Upstream engine archive exceeds 64 MiB.")
-            handle.write(chunk)
+    """Retries interrupted transfers and accepts only the pinned asset."""
+    problem = ""
+    for attempt in range(DOWNLOAD_ATTEMPTS):
+        offset = archive.stat().st_size if archive.exists() else 0
+        try:
+            _download_attempt(archive, offset, attempt)
+        except (OSError, IncompleteRead) as error:
+            problem = str(error)
+            continue
+        if _verified_archive(archive):
+            return
+        problem = f"received {archive.stat().st_size:,} of {ARCHIVE_SIZE:,} expected bytes or a different checksum"
+        if archive.stat().st_size >= ARCHIVE_SIZE:
+            archive.unlink()
+    raise RuntimeError(f"Unable to verify the engine download ({problem}). Fetch {URL} and use --archive.")
+
+
+def _download_attempt(archive: Path, offset: int, attempt: int) -> None:
+    """Resumes only when the server confirms the requested byte range."""
+    headers = {"User-Agent": "sceneharbor/1.0", "Accept-Encoding": "identity"}
+    if offset:
+        headers["Range"] = f"bytes={offset}-"
+    url = URL if not attempt else f"{URL}?sceneharbor_attempt={attempt}"
+    request = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(request, timeout=45) as response:
+        if response.status == 206:
+            content_range = response.headers.get("Content-Range", "")
+            if content_range != f"bytes {offset}-{ARCHIVE_SIZE - 1}/{ARCHIVE_SIZE}":
+                raise OSError("The download server returned an incorrect byte range.")
+        else:
+            offset = 0
+        with archive.open("ab" if offset else "wb") as handle:
+            total = offset
+            while chunk := response.read(512 * 1024):
+                total += len(chunk)
+                if total > ARCHIVE_SIZE:
+                    raise OSError("The downloaded asset exceeds its pinned size.")
+                handle.write(chunk)
+
+
+def _verified_archive(archive: Path) -> bool:
+    """Matches the official archive size and digest."""
+    return archive.stat().st_size == ARCHIVE_SIZE and fingerprint(archive) == ARCHIVE_SHA256
 
 
 def _extract(archive: Path, staging: Path) -> None:

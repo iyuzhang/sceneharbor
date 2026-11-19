@@ -25,6 +25,8 @@ Open **http://127.0.0.1:8752**. You can also install the wheel attached to the r
 
 Download `showcase.mp4` from the release to try the workbench on a 12-second public clip. Import it at 360p to keep the first run short.
 
+For an offline machine, copy the [pinned upstream engine ZIP](https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-ubuntu.zip) to it and run `sceneharbor install-engine --archive /path/to/realesrgan-ncnn-vulkan-20220424-ubuntu.zip`. The installer verifies the same SHA-256 for downloaded and local archives.
+
 ## Restore a video
 
 1. Import an MP4, MOV, MKV, WebM, AVI, MPEG, or TS file. Use an absolute path for large local files to avoid the extra copy. Choose the delivery height and quality.
