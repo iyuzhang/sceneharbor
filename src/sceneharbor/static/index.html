@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14171c">
+  <meta name="description" content="A local studio for shot-by-shot video restoration.">
+  <title>SceneHarbor</title>
+  <link rel="stylesheet" href="/static/theme.css">
+  <link rel="stylesheet" href="/static/workspace.css">
+  <script type="module" src="/static/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to workspace</a>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="SceneHarbor home">
+      <span class="brand-icon" aria-hidden="true"><i></i></span>
+      <span>SceneHarbor</span>
+    </a>
+    <div id="engine-state" class="engine-state" role="status"></div>
+  </header>
+  <div class="app-frame">
+    <aside class="library" aria-labelledby="library-title">
+      <div class="library-heading">
+        <h2 id="library-title">Library</h2>
+        <button class="button button-primary" id="import-video" type="button">
+          <span aria-hidden="true">＋</span> Import video
+        </button>
+      </div>
+      <nav id="jobs" aria-label="Videos" class="jobs"></nav>
+    </aside>
+    <main id="workspace" class="workspace" tabindex="-1">
+      <p class="startup" role="status">Opening workspace…</p>
+    </main>
+  </div>
+  <aside id="notice" class="notice" role="status" hidden>
+    <span id="notice-message"></span>
+    <button id="dismiss-notice" class="button button-icon" type="button" aria-label="Dismiss message">×</button>
+  </aside>
+  <dialog id="import-dialog" aria-labelledby="import-title">
+    <div class="dialog-heading">
+      <h2 id="import-title">Import video</h2>
+      <button id="close-import" class="button button-icon" type="button" aria-label="Close">×</button>
+    </div>
+    <form id="import-form">
+      <fieldset class="source-choice">
+        <legend>Video source</legend>
+        <label><input name="source" type="radio" value="file" checked> Upload video</label>
+        <label><input name="source" type="radio" value="path"> Use local path</label>
+      </fieldset>
+      <div class="upload-field" id="upload-field">
+        <label for="video-file">Video file</label>
+        <input id="video-file" name="file" type="file" accept="video/*,.mkv,.avi,.mov,.webm,.mxf,.mts,.m2ts">
+      </div>
+      <div class="column-fields" id="path-field" hidden>
+        <label for="video-path">Path on the server</label>
+        <input id="video-path" name="path" type="text" placeholder="/path/to/video.mp4" autocomplete="off" spellcheck="false">
+        <label for="video-name">Display name <span class="subtle">(optional)</span></label>
+        <input id="video-name" name="name" type="text" maxlength="240" placeholder="Video title">
+      </div>
+      <div class="import-settings">
+        <label class="input-group" for="target-height">
+          Output height
+          <select id="target-height" name="height">
+            <option value="360">360p</option>
+            <option value="480">480p</option>
+            <option value="720">720p</option>
+            <option value="1080" selected>1080p</option>
+            <option value="1440">1440p</option>
+            <option value="2160">2160p</option>
+          </select>
+        </label>
+        <label class="input-group" for="quality-crf">
+          Encoding CRF
+          <input id="quality-crf" name="crf" type="number" inputmode="numeric" min="12" max="28" value="18" required>
+        </label>
+      </div>
+      <p id="import-error" class="inline-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button id="cancel-import" type="button" class="button">Cancel</button>
+        <button id="submit-import" type="submit" class="button button-primary">Analyze video</button>
+      </div>
+    </form>
+  </dialog>
+  <noscript><p class="noscript">Enable JavaScript to use SceneHarbor.</p></noscript>
+</body>
+</html>

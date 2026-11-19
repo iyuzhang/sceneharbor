@@ -1,0 +1,363 @@
+{
+  "adaptive_delta_to_best_fixed_ssim": -4.105225591966022e-05,
+  "attribution": "Sintel teaser \u00a9 Blender Foundation, CC BY 3.0; video hosted by W3C.",
+  "best_fixed_by_ssim": "fixed_gentle",
+  "engine_sha256": "22c2296a39b40cc43ac92615c827ab6d4b60b7142e8cee59f718e3f8e2cdbda9",
+  "evaluation_version": 1,
+  "frames_per_shot": 12,
+  "methods": {
+    "adaptive": {
+      "mean_psnr": 48.64770812769454,
+      "mean_ssim": 0.8892335343605187,
+      "worst_ssim": 0.7317026861758334
+    },
+    "fixed_ai": {
+      "mean_psnr": 33.082757579401374,
+      "mean_ssim": 0.8802930485579677,
+      "worst_ssim": 0.7575235086811847
+    },
+    "fixed_gentle": {
+      "mean_psnr": 35.80476996247918,
+      "mean_ssim": 0.8892745866164383,
+      "worst_ssim": 0.7517916080393228
+    },
+    "fixed_lanczos": {
+      "mean_psnr": 48.16892652757096,
+      "mean_ssim": 0.8652861843444954,
+      "worst_ssim": 0.7317026861758334
+    }
+  },
+  "model_sha256": {
+    "bin": "713ee713b0353afaa27976f0563a64a5043bd70b9bd8936c2e26e25ebcdbcddf",
+    "param": "35330ececcea33b6c397a72548e788d5d53becee4734c50b7fada36e89f10a86"
+  },
+  "output_size": [
+    384,
+    216
+  ],
+  "phase": "holdout",
+  "profiles_selected": {
+    "gentle": 2,
+    "original": 2
+  },
+  "scenes": [
+    {
+      "analysis_seconds": 63.6808,
+      "degradation": {
+        "crf": null,
+        "filter": null
+      },
+      "full_ai_seconds": 9.0041,
+      "input_size": [
+        384,
+        216
+      ],
+      "metrics": {
+        "adaptive": {
+          "mean_psnr": 100.0,
+          "mean_ssim": 0.9999999999999942,
+          "worst_ssim": 0.9999999999999912
+        },
+        "fixed_ai": {
+          "mean_psnr": 41.568030641328015,
+          "mean_ssim": 0.9268295794158424,
+          "worst_ssim": 0.9254412797390161
+        },
+        "fixed_gentle": {
+          "mean_psnr": 48.37905624794589,
+          "mean_ssim": 0.9799932216206235,
+          "worst_ssim": 0.9796984816919247
+        },
+        "fixed_lanczos": {
+          "mean_psnr": 100.0,
+          "mean_ssim": 0.9999999999999942,
+          "worst_ssim": 0.9999999999999912
+        }
+      },
+      "reason": "The shot is already at the output size and has little 8-pixel blocking in the samples.",
+      "scene": "clean",
+      "selected": "original",
+      "start_seconds": 14.0,
+      "trial": {
+        "gentle": {
+          "added_flicker": 0.000343,
+          "block_excess": 0.000119,
+          "eligible": true,
+          "luma_shift": 0.001809,
+          "note": "Within source-preservation limits on the sampled frames.",
+          "risk": 8.61,
+          "score": 97.1331,
+          "source_distance": 0.002696,
+          "trial_psnr": 41.042,
+          "trial_ssim": 0.971495,
+          "trial_worst_ssim": 0.970838
+        },
+        "original": {
+          "added_flicker": 0.0,
+          "block_excess": 0.000122,
+          "eligible": true,
+          "luma_shift": 0.0,
+          "note": "Lanczos reference. No learned enhancement.",
+          "risk": 0.0,
+          "score": 97.174,
+          "source_distance": 0.0,
+          "trial_psnr": 40.494,
+          "trial_ssim": 0.971964,
+          "trial_worst_ssim": 0.971068
+        },
+        "restore": {
+          "added_flicker": 0.000567,
+          "block_excess": 0.000141,
+          "eligible": true,
+          "luma_shift": 0.001254,
+          "note": "Within source-preservation limits on the sampled frames.",
+          "risk": 13.43,
+          "score": 92.6506,
+          "source_distance": 0.006311,
+          "trial_psnr": 37.907,
+          "trial_ssim": 0.926778,
+          "trial_worst_ssim": 0.925691
+        }
+      }
+    },
+    {
+      "analysis_seconds": 46.348,
+      "degradation": {
+        "crf": null,
+        "filter": "scale=192:108:flags=lanczos"
+      },
+      "full_ai_seconds": 5.4836,
+      "input_size": [
+        192,
+        108
+      ],
+      "metrics": {
+        "adaptive": {
+          "mean_psnr": 32.5954688308016,
+          "mean_ssim": 0.9078847107842969,
+          "worst_ssim": 0.8984451454503655
+        },
+        "fixed_ai": {
+          "mean_psnr": 30.601312465561918,
+          "mean_ssim": 0.8625512319250243,
+          "worst_ssim": 0.852719788788361
+        },
+        "fixed_gentle": {
+          "mean_psnr": 32.5954688308016,
+          "mean_ssim": 0.9078847107842969,
+          "worst_ssim": 0.8984451454503655
+        },
+        "fixed_lanczos": {
+          "mean_psnr": 32.261053437527856,
+          "mean_ssim": 0.9046656458000263,
+          "worst_ssim": 0.8943336413241141
+        }
+      },
+      "reason": "Gentle improved the downsample trial by 0.75 SSIM points and stayed within the source and motion limits.",
+      "scene": "downscaled",
+      "selected": "gentle",
+      "start_seconds": 20.0,
+      "trial": {
+        "gentle": {
+          "added_flicker": 0.000885,
+          "block_excess": null,
+          "eligible": true,
+          "luma_shift": 0.005031,
+          "note": "Within source-preservation limits on the sampled frames.",
+          "risk": 23.96,
+          "score": 89.433,
+          "source_distance": 0.00606,
+          "trial_psnr": 31.015,
+          "trial_ssim": 0.896576,
+          "trial_worst_ssim": 0.887593
+        },
+        "original": {
+          "added_flicker": 0.0,
+          "block_excess": null,
+          "eligible": true,
+          "luma_shift": 0.0,
+          "note": "Lanczos reference. No learned enhancement.",
+          "risk": 0.0,
+          "score": 88.6806,
+          "source_distance": 0.0,
+          "trial_psnr": 30.518,
+          "trial_ssim": 0.889638,
+          "trial_worst_ssim": 0.878307
+        },
+        "restore": {
+          "added_flicker": 0.001859,
+          "block_excess": null,
+          "eligible": true,
+          "luma_shift": 0.009723,
+          "note": "Within source-preservation limits on the sampled frames.",
+          "risk": 46.3,
+          "score": 82.5766,
+          "source_distance": 0.014954,
+          "trial_psnr": 28.505,
+          "trial_ssim": 0.827022,
+          "trial_worst_ssim": 0.821998
+        }
+      }
+    },
+    {
+      "analysis_seconds": 38.853,
+      "degradation": {
+        "crf": 40,
+        "filter": null
+      },
+      "full_ai_seconds": 9.4417,
+      "input_size": [
+        384,
+        216
+      ],
+      "metrics": {
+        "adaptive": {
+          "mean_psnr": 28.732600689147333,
+          "mean_ssim": 0.7681277304907504,
+          "worst_ssim": 0.7317026861758334
+        },
+        "fixed_ai": {
+          "mean_psnr": 28.763959047213106,
+          "mean_ssim": 0.7920116525297477,
+          "worst_ssim": 0.7575235086811847
+        },
+        "fixed_gentle": {
+          "mean_psnr": 28.98179178033999,
+          "mean_ssim": 0.7882987178937997,
+          "worst_ssim": 0.7517916080393228
+        },
+        "fixed_lanczos": {
+          "mean_psnr": 28.732600689147333,
+          "mean_ssim": 0.7681277304907504,
+          "worst_ssim": 0.7317026861758334
+        }
+      },
+      "reason": "The shot is already at the output size and has little 8-pixel blocking in the samples.",
+      "scene": "compressed",
+      "selected": "original",
+      "start_seconds": 24.1,
+      "trial": {
+        "gentle": {
+          "added_flicker": 0.000665,
+          "block_excess": 0.001582,
+          "eligible": true,
+          "luma_shift": 0.00131,
+          "note": "Within source-preservation limits on the sampled frames.",
+          "risk": 7.0,
+          "score": 97.4504,
+          "source_distance": 0.00329,
+          "trial_psnr": 36.637,
+          "trial_ssim": 0.974769,
+          "trial_worst_ssim": 0.973709
+        },
+        "original": {
+          "added_flicker": 0.0,
+          "block_excess": 0.002172,
+          "eligible": true,
+          "luma_shift": 0.0,
+          "note": "Lanczos reference. No learned enhancement.",
+          "risk": 0.0,
+          "score": 97.0369,
+          "source_distance": 0.0,
+          "trial_psnr": 34.38,
+          "trial_ssim": 0.970738,
+          "trial_worst_ssim": 0.969263
+        },
+        "restore": {
+          "added_flicker": 0.001641,
+          "block_excess": 0.000808,
+          "eligible": true,
+          "luma_shift": 0.001093,
+          "note": "Within source-preservation limits on the sampled frames.",
+          "risk": 18.38,
+          "score": 93.9069,
+          "source_distance": 0.008639,
+          "trial_psnr": 32.882,
+          "trial_ssim": 0.939638,
+          "trial_worst_ssim": 0.937365
+        }
+      }
+    },
+    {
+      "analysis_seconds": 51.0969,
+      "degradation": {
+        "crf": null,
+        "filter": "scale=192:108:flags=lanczos,noise=all_seed=5234:alls=15:allf=t+u"
+      },
+      "full_ai_seconds": 5.1999,
+      "input_size": [
+        192,
+        108
+      ],
+      "metrics": {
+        "adaptive": {
+          "mean_psnr": 33.26276299082924,
+          "mean_ssim": 0.8809216961670332,
+          "worst_ssim": 0.8741402783104315
+        },
+        "fixed_ai": {
+          "mean_psnr": 31.397728163502467,
+          "mean_ssim": 0.9397797303612566,
+          "worst_ssim": 0.9284422360244475
+        },
+        "fixed_gentle": {
+          "mean_psnr": 33.26276299082924,
+          "mean_ssim": 0.8809216961670332,
+          "worst_ssim": 0.8741402783104315
+        },
+        "fixed_lanczos": {
+          "mean_psnr": 31.68205198360866,
+          "mean_ssim": 0.7883513610872108,
+          "worst_ssim": 0.7787884264438737
+        }
+      },
+      "reason": "Gentle improved the downsample trial by 0.67 SSIM points and stayed within the source and motion limits.",
+      "scene": "noisy_downscaled",
+      "selected": "gentle",
+      "start_seconds": 30.0,
+      "trial": {
+        "gentle": {
+          "added_flicker": 0.001348,
+          "block_excess": null,
+          "eligible": true,
+          "luma_shift": 0.004545,
+          "note": "Within source-preservation limits on the sampled frames.",
+          "risk": 21.64,
+          "score": 88.3607,
+          "source_distance": 0.009786,
+          "trial_psnr": 29.364,
+          "trial_ssim": 0.885632,
+          "trial_worst_ssim": 0.877533
+        },
+        "original": {
+          "added_flicker": 0.0,
+          "block_excess": null,
+          "eligible": true,
+          "luma_shift": 0.0,
+          "note": "Lanczos reference. No learned enhancement.",
+          "risk": 0.0,
+          "score": 87.6863,
+          "source_distance": 0.0,
+          "trial_psnr": 27.889,
+          "trial_ssim": 0.879156,
+          "trial_worst_ssim": 0.869984
+        },
+        "restore": {
+          "added_flicker": 0.004081,
+          "block_excess": null,
+          "eligible": true,
+          "luma_shift": 0.008036,
+          "note": "Within source-preservation limits on the sampled frames.",
+          "risk": 55.51,
+          "score": 84.4652,
+          "source_distance": 0.026089,
+          "trial_psnr": 27.986,
+          "trial_ssim": 0.847384,
+          "trial_worst_ssim": 0.836458
+        }
+      }
+    }
+  ],
+  "source_sha256": "b670602fa00934ca27c4351bb0efe7ea7a07fae57284e44226025eeed7c51254",
+  "source_url": "https://media.w3.org/2010/05/sintel/trailer.mp4"
+}
